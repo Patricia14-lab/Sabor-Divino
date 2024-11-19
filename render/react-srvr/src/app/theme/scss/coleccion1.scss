@@ -1,0 +1,65 @@
+.content-container {
+  padding: 15px;
+}
+
+.of-contain {
+  object-fit: contain;
+}
+
+.tw-balance {
+  text-wrap: balance;
+}
+
+.d-center {
+  @extend .d-flex;
+  @extend .jc-c;
+  @extend .ai-c;
+}
+
+.d-flex-col {
+  @extend .d-flex;
+  @extend .flex-column;
+}
+
+.d-flex-col-center {
+  @extend .d-center;
+  @extend .flex-column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.to-right-center {
+  transform-origin: 100% center;
+}
+
+.ws-nowrap{
+  white-space: nowrap;
+}
+
+.tt-uppercase{
+  text-transform: uppercase;
+}
+
+.h-full{
+  @extend .min-h-100vh;
+}
+
+.square{
+  aspect-ratio: 1;
+}
+
+.circle{
+  @extend .square;
+  border-radius: 50%;
+}
+
+.fw-bolder{
+  font-weight: bolder;
+}
+
+.fs-150p{
+  font-size: 150%;
+}
+

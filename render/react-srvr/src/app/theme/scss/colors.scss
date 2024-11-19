@@ -1,0 +1,21 @@
+@each $color
+  in (
+    white,
+    dodgerblue,
+    skyblue,
+    crimson,
+    pink,
+    darkred,
+    orange,
+    black,
+    purple,
+    gray
+  )
+{
+  .bg-#{$color} {
+    background-color: $color;
+  }
+  .c-#{$color} {
+    color: $color;
+  }
+}
