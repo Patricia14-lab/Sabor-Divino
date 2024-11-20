@@ -20,8 +20,8 @@ function SlideDiseño1(props) {
   return (
     <div
       className={fluidCSS()
-        .btwX([650,1100],{
-          justifyContent:["center", "end", jc]
+        .btwX([650, 1100], {
+          justifyContent: ["center", "end", jc],
         })
         .end()}
       style={{
@@ -36,7 +36,7 @@ function SlideDiseño1(props) {
         display: "flex",
         alignItems: "center",
         padding: "30px",
-        paddingRight:"40px",
+        paddingRight: "40px",
         fontSize: "40px",
         zIndex: "0",
       }}
@@ -121,15 +121,14 @@ function SlideDiseño1(props) {
 let contenidoDePrueba = [
   {
     card: () => (
-    <SlideDiseño1
-    backimgurl=""
-    imgurl="https://i.ibb.co/9Y9tJZG/8421e0ac-9060-438e-ac6c-9bf019e34b59-jfif.png"
-    imgblururl="https://i.ibb.co/cFDvWP3/ca6fed42-723f-4474-91d2-879af3b00618-jfif.png"
-    colores={["white", "pink", "plum"]}
-    jc="center"
-    w="40%"
-    >
-
+      <SlideDiseño1
+        backimgurl=""
+        imgurl="https://i.ibb.co/9Y9tJZG/8421e0ac-9060-438e-ac6c-9bf019e34b59-jfif.png"
+        imgblururl="https://i.ibb.co/cFDvWP3/ca6fed42-723f-4474-91d2-879af3b00618-jfif.png"
+        colores={["white", "pink", "plum"]}
+        jc="center"
+        w="40%"
+      >
         <div
           className="Chewy"
           style={{
@@ -141,9 +140,9 @@ let contenidoDePrueba = [
           }}
         >
           Cupcakes irresistibles para cada ocasión
-      </div>
-
-      </SlideDiseño1>)
+        </div>
+      </SlideDiseño1>
+    ),
   },
   {
     card: () => (
@@ -281,13 +280,33 @@ let contenidoDePrueba = [
   },
 ];
 
-export default Seccion2;
-function Seccion2({ contenidos = contenidoDePrueba }) {
+export default Slider;
+function Slider({ contenidos = contenidoDePrueba }) {
   const [index, setIndex] = React.useState(0);
   const indexPrevious = index == 0 ? contenidos.length - 1 : index - 1;
   const indexNext = index == contenidos.length - 1 ? 0 : index + 1;
+  let xinicial = 0;
+  let buscarCambio = false;
   return (
     <div
+      onTouchStart={(e) => {
+        xinicial = e.touches[0].clientX;
+        buscarCambio = true;
+      }}
+      onTouchMove={(e) => {
+        if (!buscarCambio) {
+          return;
+        }
+        const xfinal = e.touches[0].clientX;
+        const distancia = xfinal - xinicial;
+        if (distancia > 40) {
+          buscarCambio = false;
+          changeNext();
+        } else if (distancia < -40) {
+          buscarCambio = false;
+          changePrevious();
+        }
+      }}
       onKeyDown={(e) => {
         if (e.key === "ArrowLeft") {
           // Implement left arrow key functionality
@@ -298,15 +317,27 @@ function Seccion2({ contenidos = contenidoDePrueba }) {
         }
       }}
       tabIndex={6}
-      className=" min-h-60vh"
       style={{
+        height: "50vh",
+        minHeight: "400px",
         position: "relative",
         overflow: "hidden",
+        
       }}
     >
       <BackElement />
       <VisibleElement />
       <OutSideElement />
+      <BotonCambiar
+          change= {changeNext}
+          align ="right"
+          icon = {<i class="fa-solid fa-angle-right"></i>}
+      />
+      <BotonCambiar
+          change= {changePrevious}
+          align ="left"
+          icon = {<i class="fa-solid fa-angle-left"></i>}
+      />
     </div>
   );
   function VisibleElement() {
@@ -383,6 +414,37 @@ function Seccion2({ contenidos = contenidoDePrueba }) {
 }
 
 const PUBLIC_URL = process.env.PUBLIC_URL;
+
+function BotonCambiar(props) {
+  const {
+    change,
+    align ="right",
+    icon = ">",
+    
+    
+  } =props
+
+  return <div
+    onClick={change}
+    className="btn-next"
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      position: "absolute",
+      top: "50%",
+      transform: "translateY(-50%)",
+      [align]:"20px",
+      background: "rgba(255,255,255,0.5)",
+      cursor: "pointer",
+      width: "30px",
+      aspectRatio: "1",
+      borderRadius: "50%",
+    }}
+  >
+    {icon}
+  </div>;
+}
 
 function $img(props) {
   const { src = "" } = props;
